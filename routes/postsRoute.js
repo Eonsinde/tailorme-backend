@@ -4,14 +4,18 @@ const { getPost, getPosts, getTimelinePosts, getUserPosts, updatePost, likeAndUn
 const { addComment, updateComment, deleteComment } = require('../controllers/commentsController');
 
 router.post("/", protect, addPost);
-router.post("/comment", protect, addComment);
 router.get("/:id", protect, getPost);
+router.put("/:id", protect, updatePost);
+router.delete("/:id", protect, deletePost);
+
 router.get("/timeline/:userId", protect, getTimelinePosts);
 router.get("/profile/:username", protect, getUserPosts);
+
+router.post("/comment", protect, addComment);
 router.put("/comment", protect, updateComment);
-router.put(":id/like", protect, likeAndUnlikePost);
-router.put("/:id", protect, updatePost);
 router.delete("/comment", protect, deleteComment);
-router.delete("/:id", protect, deletePost);
+
+router.put(":id/like", protect, likeAndUnlikePost);
+
 
 module.exports = router;

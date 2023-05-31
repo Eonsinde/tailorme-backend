@@ -5,25 +5,25 @@ const User = require("../models/User");
 exports.addPost = async(req, res) => {
     const newPost = new Post(req.body);
     try {
-        const savedPost = await newPost.save();
-        res.status(200).json(savedPost);
+      const savedPost = await newPost.save();
+      res.status(200).json(savedPost);
     } catch (err) {
-        res.status(500).json(err);
+      res.status(500).json(err);
     }
 }
 
 // Update a post
 exports.updatePost = async(req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        if (post.userId === req.body.userId) {
-          await post.updateOne({ $set: req.body });
-          res.status(200).json("the post has been updated");
-        } else {
-          res.status(403).json("you can update only your post");
-        }
-      } catch (err) {
-        res.status(500).json(err);
+      const post = await Post.findById(req.params.id);
+      if (post.userId === req.body.userId) {
+        await post.updateOne({ $set: req.body });
+        res.status(200).json("the post has been updated");
+      } else {
+        res.status(403).json("you can update only your post");
+      }
+    } catch (err) {
+      res.status(500).json(err);
     }
 }
 
