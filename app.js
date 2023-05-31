@@ -9,10 +9,11 @@ const multer = require("multer");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 // routes import
 const postsRoutes = require("./routes/postsRoute");
+const chatsRoutes = require("./routes/chatsRoute");
 const trendsRoutes = require("./routes/trendsRoute");
 const usersRoutes = require("./routes/usersRoute");
-const conversationRoutes = require("./routes/Conversation");
-const messagesRoutes = require("./routes/messages");
+const conversationRoutes = require("./routes/conversationsRoute");
+const messagesRoutes = require("./routes/messagesRoute");
 // db import
 const connectDB = require("./config/db");
 
@@ -34,12 +35,10 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors({
-    credentials: true,
-    origin: "http://localhost:5173"
-}));
+app.use(cors());
 
 // root routes 
+app.use("/api/chats", chatsRoutes);
 app.use("/api/posts", postsRoutes);
 app.use("/api/trends", trendsRoutes); 
 app.use("/api/users", usersRoutes);

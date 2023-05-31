@@ -1,7 +1,6 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const expressAsyncHandler = require("express-async-handler");
 const { User } = require("../models/User.js");
+const { generateToken } = require("../utils.js");
 
 
 // @desc      register new user
@@ -181,13 +180,6 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     }
 })
 
-// Generate JWT
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    });
-}
-
 // Get User Friends
 const getUserFriends = async(req, res) => {
     try {
@@ -250,6 +242,26 @@ const unFollowUser = async(req, res) => {
     }
 }
 
+// @desc      Search a user
+// @route     PUT /api/users?query=fiyoupe
+// @access    Public
+const searchUsers = expressAsyncHandler(async (req, res) => {
+    console.log("search query:", req.query.query);
+
+    const keyword = req.query.query ? {
+        $or: [
+            {username: { $regex: req.query.query, $options: "i" }},
+            {displayName: { $regex: req.query.query.search, $options: "i" }},
+            {email: { $regex: req.query.query, $options: "i" }},
+        ]
+    } : {};
+
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
+    console.log(users);
+
+    res.status(200).json({ query: req.query });
+})
+
 module.exports = {
     registerUser,
     loginUser,
@@ -258,5 +270,6 @@ module.exports = {
     updateUser,
     getUserFriends,
     followUser,
-    unFollowUser
+    unFollowUser,
+    searchUsers
 }
