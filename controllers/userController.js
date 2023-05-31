@@ -129,6 +129,9 @@ const updateUser = expressAsyncHandler(async (req, res) => {
         user.email = req.body.email || user.email;
         user.firstName = req.body.firstName || user.firstName;
         user.lastName = req.body.lastName || user.lastName;
+        user.displayName = req.body.displayName || user.displayName;
+        user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+        user.address = req.body.address || user.address;
 
         if (req.body.password) {
             user.password = req.body.password;
