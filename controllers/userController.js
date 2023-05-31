@@ -1,4 +1,3 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const expressAsyncHandler = require("express-async-handler");
 const { User } = require("../models/user.js");
@@ -8,7 +7,7 @@ const { User } = require("../models/user.js");
 // @route     POST /api/users/register
 // @access    Public
 const registerUser = expressAsyncHandler(async (req, res) => {
-    const { firstName, lastName, username, email, password } = req.body;
+    const { firstName, lastName, username, displayName, email, password } = req.body;
 
     if (!email || !username || !password) {
         res.status(400);
@@ -23,14 +22,8 @@ const registerUser = expressAsyncHandler(async (req, res) => {
         throw new Error("User already exists");
     }
 
-    // hash password
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt);
-
     // create user
     const user = await User.create({
-        firstName: firstName ? firstName : "",
-        lastName: lastName ? lastName : "",
         username,
         email,
         displayName: displayName ? displayName : "",
@@ -113,7 +106,8 @@ const getUser = expressAsyncHandler(async (req, res) => {
         firstName,
         lastName,
         displayName,
-        phoneNumber
+        phoneNumber,
+        address
     });
 })
 
