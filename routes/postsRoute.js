@@ -9,8 +9,7 @@ router.get("/all-posts", getPosts);
 router.put("/:id", protect, updatePost);
 router.delete("/:id", protect, deletePost);
 
-// router.get("/timeline/:userId", protect, getTimelinePosts);
-router.get("/timeline/:userId", getTimelinePosts);
+router.get("/timeline/:userId", protect, getTimelinePosts);
 router.get("/user/all-posts", protect, getUserPosts);
 
 router.post("/comment", protect, addComment);
