@@ -48,6 +48,14 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: [],
     },
+    favorites: {
+        type: Array,
+        default: [],
+    },
+    specialties: {
+        type: Array,
+        default: [],
+    },
     relationship: {
         type: Number,
         enum: [1, 2, 3],
