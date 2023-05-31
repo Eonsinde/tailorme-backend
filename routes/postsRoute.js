@@ -5,6 +5,7 @@ const { addComment, updateComment, deleteComment } = require('../controllers/com
 
 router.post("/", protect, addPost);
 router.get("/:id", protect, getPost);
+router.get("/all-posts", protect, getPosts);
 router.put("/:id", protect, updatePost);
 router.delete("/:id", protect, deletePost);
 
