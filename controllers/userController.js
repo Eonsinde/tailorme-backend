@@ -90,7 +90,33 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 // @desc      Get a user
 // @route     GET /api/users/me
 // @access    Private
-const getUser = expressAsyncHandler(async (req, res) => {
+const getUserProfile = expressAsyncHandler(async (req, res) => {
+    const { 
+        _id, 
+        username, 
+        email, 
+        firstName, 
+        lastName, 
+        displayName, 
+        phoneNumber,
+        address 
+    } = await User.findById(req.user.id);
+    
+    res.status(200).json({ 
+        _id,
+        username,
+        email,
+        firstName,
+        lastName,
+        displayName,
+        phoneNumber
+    });
+})
+
+// @desc      Get a user
+// @route     GET /api/users/:id
+// @access    Public
+const getUserById = expressAsyncHandler(async (req, res) => {
     const { 
         _id, 
         username, 
@@ -221,7 +247,8 @@ const unFollowUser = async(req, res) => {
 module.exports = {
     registerUser,
     loginUser,
-    getUser,
+    getUserProfile,
+    getUserById,
     updateUser,
     getUserFriends,
     followUser,
