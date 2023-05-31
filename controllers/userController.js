@@ -70,10 +70,6 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     }
 
     if (user && (await user.matchPassword(password))) {
-        // generate token
-        generateToken(res, user._id);
-        // console.log("user id:", user._id, "\n\n\n");
-
         res.status(200).json({
             message: "success",
             data: {
@@ -130,6 +126,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
         user.firstName = req.body.firstName || user.firstName;
         user.lastName = req.body.lastName || user.lastName;
         user.displayName = req.body.displayName || user.displayName;
+        user.bio = req.body.bio || user.bio;
         user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
         user.address = req.body.address || user.address;
 

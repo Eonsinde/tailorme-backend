@@ -25,6 +25,9 @@ const userSchema = mongoose.Schema({
         type: String,
     },
     lastName: {
+        type: String,
+    },
+    bio: {
         type: String,  
     },
     phoneNumber: {
