@@ -9,7 +9,7 @@ const { generateToken } = require("../utils.js");
 const registerUser = expressAsyncHandler(async (req, res) => {
     const { username, displayName, email, password } = req.body;
 
-    if (!email || !username || !password) {
+    if (!email || !username || !password || !displayName) {
         res.status(400);
         throw new Error("Please fill in all the required fields");
     }
