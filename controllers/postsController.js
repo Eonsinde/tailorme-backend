@@ -80,7 +80,6 @@ exports.getTimelinePosts = async(req, res) => {
         );
         res.status(200).json(userPosts.concat(...friendPosts));
       } catch (err) {
-        console.log(err)
         res.status(500).json(err);
     }
 }
