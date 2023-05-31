@@ -77,6 +77,33 @@ const loginUser = expressAsyncHandler(async (req, res) => {
 })
 
 // @desc      Get a user
+// @route     GET /api/users/:id
+// @access    Public
+const getUserProfile = expressAsyncHandler(async (req, res) => {
+    const { 
+        _id, 
+        username, 
+        email, 
+        firstName, 
+        lastName, 
+        displayName, 
+        phoneNumber,
+        address 
+    } = await User.findById(req.params.id);
+
+    res.status(200).json({ 
+        _id,
+        username,
+        email,
+        firstName,
+        lastName,
+        displayName,
+        phoneNumber,
+        address
+    });
+})
+
+// @desc      Get a user
 // @route     GET /api/users/me
 // @access    Private
 const getUser = expressAsyncHandler(async (req, res) => {
@@ -145,6 +172,7 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
+    getUserProfile,
     getUser,
     updateUser
 }
