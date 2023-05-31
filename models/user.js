@@ -49,6 +49,14 @@ const userSchema = mongoose.Schema({
         type: Number,
         enum: [1, 2, 3],
     },
+    profilePicture: {
+        type: String,
+        default: "",
+    },
+    coverPicture: {
+        type: String,
+        default: "",
+    },
 }, {
     timestamps: true
 })

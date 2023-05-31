@@ -11,6 +11,8 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const postsRoutes = require("./routes/postsRoute");
 const trendsRoutes = require("./routes/trendsRoute");
 const usersRoutes = require("./routes/usersRoute");
+const conversationRoutes = require("./routes/Conversation");
+const messagesRoutes = require("./routes/messages");
 // db import
 const connectDB = require("./config/db");
 
@@ -41,6 +43,8 @@ app.use(cors({
 app.use("/api/posts", postsRoutes);
 app.use("/api/trends", trendsRoutes); 
 app.use("/api/users", usersRoutes);
+app.use("/api/conversation", conversationRoutes);
+app.use("/api/messages", messagesRoutes);
 
 app.post("/api/upload-picture-evidence", upload.single("file"), (req, res) => {
     const imageName = req.file.filename;

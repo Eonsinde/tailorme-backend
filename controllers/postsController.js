@@ -94,3 +94,14 @@ exports.getUserPosts = async(req, res) => {
         res.status(500).json(err);
     }
 }
+
+// Get all posts
+exports.getPosts = async(req, res) => {
+  Post.find({})
+    .then(posts => {
+      res.status(200).json({ posts })
+    })
+    .catch(err => {
+      console.log(err)
+  })
+}
