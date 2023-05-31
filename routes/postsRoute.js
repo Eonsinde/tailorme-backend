@@ -5,18 +5,17 @@ const { addComment, updateComment, deleteComment } = require('../controllers/com
 
 router.post("/", protect, addPost);
 router.get("/:id", protect, getPost);
-router.get("/all-posts", protect, getPosts);
+router.get("/all-posts", getPosts);
 router.put("/:id", protect, updatePost);
 router.delete("/:id", protect, deletePost);
 
 router.get("/timeline/:userId", protect, getTimelinePosts);
-router.get("/profile/:username", protect, getUserPosts);
+router.get("/user/all-posts", protect, getUserPosts);
 
 router.post("/comment", protect, addComment);
 router.put("/comment", protect, updateComment);
 router.delete("/comment", protect, deleteComment);
 
 router.put(":id/like", protect, likeAndUnlikePost);
-
 
 module.exports = router;
