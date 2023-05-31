@@ -30,8 +30,14 @@ const userSchema = mongoose.Schema({
     phoneNumber: {
         type: String,  
     },
+    bio: {
+        type: String,
+    },
     address: {
         type: String,  
+    },
+    isVerified: {
+        type: Boolean,  
     },
 }, {
     timestamps: true

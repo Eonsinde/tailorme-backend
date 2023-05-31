@@ -88,7 +88,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         lastName, 
         displayName, 
         phoneNumber,
-        address 
+        address,
+        isVerified 
     } = await User.findById(req.params.id);
 
     res.status(200).json({ 
@@ -99,7 +100,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         lastName,
         displayName,
         phoneNumber,
-        address
+        address,
+        isVerified 
     });
 })
 
@@ -107,6 +109,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 // @route     GET /api/users/me
 // @access    Private
 const getUser = expressAsyncHandler(async (req, res) => {
+    console.log("user:", req.user._id);
+
     const { 
         _id, 
         username, 
@@ -115,7 +119,8 @@ const getUser = expressAsyncHandler(async (req, res) => {
         lastName, 
         displayName, 
         phoneNumber,
-        address 
+        address,
+        isVerified 
     } = await User.findById(req.user.id);
     
     res.status(200).json({ 
@@ -126,7 +131,8 @@ const getUser = expressAsyncHandler(async (req, res) => {
         lastName,
         displayName,
         phoneNumber,
-        address
+        address,
+        isVerified 
     });
 })
 
