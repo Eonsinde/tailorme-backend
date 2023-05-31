@@ -42,6 +42,7 @@ const getTwoUsersConversation = expressAsyncHandler(async (req, res) => {
 });
 
 module.exports = {
+  addConversation,
   getUserConversation,
   getTwoUsersConversation
 }

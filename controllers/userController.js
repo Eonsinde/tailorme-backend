@@ -97,6 +97,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         firstName, 
         lastName, 
         displayName, 
+        profilePicture,
         phoneNumber,
         address,
         bio 
@@ -109,9 +110,10 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         firstName,
         lastName,
         displayName,
-        phoneNumber,
-        address,
-        bio 
+        profilePicture: profilePicture || "",
+        phoneNumber: phoneNumber || "",
+        address: address || "",
+        bio: bio || "" 
     });
 })
 
@@ -126,6 +128,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         firstName, 
         lastName, 
         displayName, 
+        profilePicture,
         phoneNumber,
         address,
         bio
@@ -138,9 +141,10 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         firstName,
         lastName,
         displayName,
-        phoneNumber,
-        address,
-        bio
+        profilePicture: profilePicture || "",
+        phoneNumber: phoneNumber || "",
+        address: address || "",
+        bio: bio || "" 
     });
 })
 
@@ -171,6 +175,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
             id: updatedUser._id,
             username: updatedUser.username,
             email: updatedUser.email,
+            displayName: updatedUser.displayName,
             firstName: updatedUser.firstName,
             lastName: updatedUser.lastName,
         });
