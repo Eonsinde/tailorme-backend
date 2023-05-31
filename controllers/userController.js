@@ -7,7 +7,7 @@ const { User } = require("../models/user.js");
 // @route     POST /api/users/register
 // @access    Public
 const registerUser = expressAsyncHandler(async (req, res) => {
-    const { firstName, lastName, username, displayName, email, password } = req.body;
+    const { username, displayName, email, password } = req.body;
 
     if (!email || !username || !password) {
         res.status(400);
@@ -32,11 +32,9 @@ const registerUser = expressAsyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            message: "success",
             data: {
                 _id: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                displayName: user.displayName,
                 username: user.username,
                 email: user.email
             },
@@ -63,16 +61,10 @@ const loginUser = expressAsyncHandler(async (req, res) => {
     }
 
     if (user && (await user.matchPassword(password))) {
-        // generate token
-        generateToken(res, user._id);
-        // console.log("user id:", user._id, "\n\n\n");
-
         res.status(200).json({
-            message: "success",
             data: {
-                _id: user._id,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                _id: user.id,
+                displayName: user.displayName,
                 username: user.username,
                 email: user.email
             },
