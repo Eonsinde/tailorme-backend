@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const expressAsyncHandler = require("express-async-handler");
-const { User } = require("../models/user");
+const { User } = require("../models/User");
 
 
 // token with local storage

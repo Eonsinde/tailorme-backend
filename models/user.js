@@ -33,6 +33,22 @@ const userSchema = mongoose.Schema({
     address: {
         type: String,  
     },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    followers: {
+        type: Array,
+        default: [],
+    },
+    followings: {
+        type: Array,
+        default: [],
+    },
+    relationship: {
+        type: Number,
+        enum: [1, 2, 3],
+    },
 }, {
     timestamps: true
 })
