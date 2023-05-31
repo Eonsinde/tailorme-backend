@@ -99,7 +99,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         lastName, 
         displayName, 
         phoneNumber,
-        address 
+        address,
+        bio 
     } = await User.findById(req.user.id);
     
     res.status(200).json({ 
@@ -109,7 +110,9 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         firstName,
         lastName,
         displayName,
-        phoneNumber
+        phoneNumber,
+        address,
+        bio 
     });
 })
 
@@ -125,8 +128,9 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         lastName, 
         displayName, 
         phoneNumber,
-        address 
-    } = await User.findById(req.user.id);
+        address,
+        bio
+    } = await User.findById(req.params.id);
     
     res.status(200).json({ 
         _id,
@@ -135,7 +139,9 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         firstName,
         lastName,
         displayName,
-        phoneNumber
+        phoneNumber,
+        address,
+        bio
     });
 })
 
