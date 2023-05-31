@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const expressAsyncHandler = require("express-async-handler");
 const { User } = require("../models/user.js");
-
+const { generateToken } = require("../utils.js");
 
 // @desc      register new user
 // @route     POST /api/users/register
@@ -168,12 +168,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     }
 })
 
-// Generate JWT
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    });
-}
+
 
 module.exports = {
     registerUser,
