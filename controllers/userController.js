@@ -76,7 +76,8 @@ const loginUser = expressAsyncHandler(async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                savedPosts: user.savedPosts
             },
             token: generateToken(user._id),
         });
