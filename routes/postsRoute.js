@@ -10,12 +10,12 @@ router.get("/timeline/:userId", protect, getTimelinePosts);
 router.get("/user/all-posts", protect, getUserPosts);
 router.post("/comment", protect, addComment);
 router.get("/:userId", getAllUserPosts)
-router.put("/comment", protect, updateComment);
 router.delete("/comment", protect, deleteComment);
 
 router.get("/:id", protect, getPost);
+router.put("/:id/like", protect, likeAndUnlikePost);
 router.put("/:id", protect, updatePost);
 router.delete("/:id", protect, deletePost);
-router.put(":id/like", protect, likeAndUnlikePost);
+router.put("/comment", protect, updateComment);
 
 module.exports = router;
