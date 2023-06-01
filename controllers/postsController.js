@@ -80,7 +80,7 @@ exports.getAllUserPosts = async(req, res) => {
     if(!user){
       return res.status(404).json("No User Found!")
     }
-      const posts = await Post.find({userId: user._id}).populate('comments');  
+      const posts = await Post.find({userId: user._id})  
       res.status(200).json(posts);
     } catch (err) {
       console.log(err);

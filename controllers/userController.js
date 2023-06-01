@@ -1,4 +1,5 @@
 const expressAsyncHandler = require("express-async-handler");
+const uploadToCloudinary = require("../middleware/uploadMiddleware");
 const { User } = require("../models/user.js");
 const { generateToken } = require("../utils.js");
 
@@ -160,6 +161,24 @@ const getUserById = expressAsyncHandler(async (req, res) => {
     });
 })
 
+const updateUserAvatar = expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        const localFilePath = req.file?.path || "";
+        const result = await uploadToCloudinary(localFilePath);
+        user.username = req.body.username || result.url;
+        
+        const updatedUser = await user.save();
+        res.status(200).json({
+            profilePicture: updatedUser.profilePicture,
+        });
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+})
+
 // @desc      Update a user
 // @route     PUT /api/users/me
 // @access    Private
@@ -176,6 +195,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
         user.bio = req.body.bio || user.bio;
         user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
         user.address = req.body.address || user.address;
+        user.specialties = req.body.specialties || user.specialties;
 
         if (req.body.password) {
             user.password = req.body.password;
@@ -282,6 +302,7 @@ module.exports = {
     registerUser,
     loginUser,
     getUserProfile,
+    updateUserAvatar,
     getUserById,
     updateUser,
     getUserFriends,

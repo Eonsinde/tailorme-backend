@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const store = require('../middleware/multer');
 const { 
     registerUser, 
     loginUser,
@@ -8,7 +9,8 @@ const {
     getUserFriends, 
     followUser, 
     unFollowUser, 
-    searchUsers 
+    searchUsers, 
+    updateUserAvatar
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -17,6 +19,7 @@ router.post("/login", loginUser);
 router.route("/profile")
     .get(protect, getUserProfile)
     .put(protect, updateUser);
+router.put("/update-avatar", protect, store.single('file'), updateUserAvatar);
 router.get("/search", protect, searchUsers);
 router.route("/:id").get(getUserById);
 
