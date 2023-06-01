@@ -264,7 +264,7 @@ const searchUsers = expressAsyncHandler(async (req, res) => {
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
     console.log(users);
 
-    res.status(200).json({ query: req.query });
+    res.status(200).json(users);
 })
 
 module.exports = {
