@@ -73,7 +73,6 @@ exports.getPost = async(req, res) => {
 exports.getAllUserPosts = async(req, res) => {
   try {
     const userId = req.params.userId;
-    console.log(userId);
     const user = await User.findById(userId)
     if(!user){
       return res.status(404).json("No User Found!")
@@ -90,10 +89,10 @@ exports.getAllUserPosts = async(req, res) => {
 exports.getTimelinePosts = async(req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
-      const userPosts = await Post.find({ userId: currentUser._id });
+      const userPosts = await Post.find({ userId: currentUser._id }).populate('comments');
       const friendPosts = await Promise.all(
         currentUser.followings.map((friendId) => {
-          return Post.find({ userId: friendId });
+          return Post.find({ userId: friendId }).populate('comments');
         })
       );
       res.status(200).json(userPosts.concat(...friendPosts));
@@ -107,7 +106,7 @@ exports.getTimelinePosts = async(req, res) => {
 exports.getUserPosts = async(req, res) => {
     try {
         const user = await User.findOne({ username: req.params.id });
-        const posts = await Post.find({ userId: user._id });
+        const posts = await Post.find({ userId: user._id }).populate('comments');
         res.status(200).json(posts);
       } catch (err) {
         res.status(500).json(err);
@@ -130,7 +129,7 @@ exports.addSavedPost = async(req, res) => {
   try {
     const { postId } = req.body;
     const userId = req.user._id
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate('comments');
     if(!post){
       return res.status(404).json("Post Not found!")
     }
