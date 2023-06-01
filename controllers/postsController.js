@@ -97,7 +97,8 @@ exports.getTimelinePosts = async(req, res) => {
             model: "Comment"
           }, {
             path: "userId",
-            model: "User"
+            model: "User",
+            select: {"username": 1, "displayName": 1, "profilePicture": 1, "_id": 1}
           }])
         })
       );
@@ -126,7 +127,8 @@ exports.getPosts = async(req, res) => {
     model: "Comment"
   }, {
     path: "userId",
-    model: "User"
+    model: "User",
+    select: {"username": 1, "displayName": 1, "profilePicture": 1, "_id": 1}
   }])
     .then(posts => {
       res.status(200).json({ posts })
