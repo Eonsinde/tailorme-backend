@@ -4,7 +4,6 @@ const { User } = require("../models/user");
 
 // Add a post
 exports.addPost = async(req, res) => {
-  console.log(req.file);
   try {
     const userId = req.user._id;
     const localFilePath = req.file?.path || "";

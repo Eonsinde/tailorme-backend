@@ -219,8 +219,6 @@ const getUserFriends = async(req, res) => {
 
 // Follow a User
 const followUser = async(req, res) => {
-    console.log("aut user:", req.user._id, ":::", "user to foolwo:", req.params.id);
-
     if (req.user._id !== req.params.id) {
         try {
           const user = await User.findById(req.params.id);
