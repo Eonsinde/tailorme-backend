@@ -62,11 +62,28 @@ exports.likeAndUnlikePost = async(req, res) => {
 // Get a post
 exports.getPost = async(req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id).populate('comments');
         res.status(200).json(post);
       } catch (err) {
         res.status(500).json(err);
     }
+}
+
+// Get all User's post
+exports.getAllUserPosts = async(req, res) => {
+  try {
+    const userId = req.params.userId;
+    console.log(userId);
+    const user = await User.findById(userId)
+    if(!user){
+      return res.status(404).json("No User Found!")
+    }
+      const post = await Post.find({userId: user._id}).populate('comments');  
+      res.status(200).json(post);
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+  }
 }
 
 // Get timeline posts
@@ -99,7 +116,7 @@ exports.getUserPosts = async(req, res) => {
 
 // Get all posts
 exports.getPosts = async(req, res) => {
-  Post.find({})
+  Post.find({}).populate('comments')
     .then(posts => {
       res.status(200).json({ posts })
     })

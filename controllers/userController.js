@@ -144,7 +144,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         profilePicture: profilePicture || "",
         phoneNumber: phoneNumber || "",
         address: address || "",
-        bio: bio || "" 
+        bio: bio || ""
     });
 })
 
