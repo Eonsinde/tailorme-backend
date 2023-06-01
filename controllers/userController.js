@@ -131,7 +131,9 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         profilePicture,
         phoneNumber,
         address,
-        bio
+        bio,
+        favorites,
+        specialties
     } = await User.findById(req.params.id);
     
     res.status(200).json({ 
@@ -144,7 +146,9 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         profilePicture: profilePicture || "",
         phoneNumber: phoneNumber || "",
         address: address || "",
-        bio: bio || "" 
+        bio: bio || "",
+        favorites: favorites || [],
+        specialties: specialties || [],
     });
 })
 
