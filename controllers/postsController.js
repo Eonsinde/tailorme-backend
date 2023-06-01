@@ -4,10 +4,11 @@ const { User } = require("../models/user");
 
 // Add a post
 exports.addPost = async(req, res) => {
+  console.log(req.file);
   try {
     const userId = req.user._id;
-    const locaFilePath = req.file.path;
-    const result = await uploadToCloudinary(locaFilePath);
+    const localFilePath = req.file?.path || "";
+    const result = await uploadToCloudinary(localFilePath);
     const newPost = new Post({...req.body, img: result.url, userId});
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);

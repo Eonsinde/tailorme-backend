@@ -1,7 +1,8 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const multer = require("multer");
@@ -16,9 +17,6 @@ const conversationRoutes = require("./routes/conversationsRoute");
 const messagesRoutes = require("./routes/messagesRoute");
 // db import
 const connectDB = require("./config/db");
-
-// configurations
-dotenv.config();
 
 // connect to DB
 connectDB();
