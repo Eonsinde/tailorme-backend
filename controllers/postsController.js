@@ -92,7 +92,13 @@ exports.getTimelinePosts = async(req, res) => {
       const userPosts = await Post.find({ userId: currentUser._id }).populate('comments');
       const friendPosts = await Promise.all(
         currentUser.followings.map((friendId) => {
-          return Post.find({ userId: friendId }).populate('comments');
+          return Post.find({ userId: friendId }).populate([{
+            path: "comments",
+            model: "Comment"
+          }, {
+            path: "userId",
+            model: "User"
+          }])
         })
       );
       res.status(200).json(userPosts.concat(...friendPosts));
@@ -115,7 +121,13 @@ exports.getUserPosts = async(req, res) => {
 
 // Get all posts
 exports.getPosts = async(req, res) => {
-  Post.find({}).populate('comments')
+  Post.find({}).populate([{
+    path: "comments",
+    model: "Comment"
+  }, {
+    path: "userId",
+    model: "User"
+  }])
     .then(posts => {
       res.status(200).json({ posts })
     })
