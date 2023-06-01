@@ -2,8 +2,9 @@ const router = require('express').Router();
 const { protect } = require('../middleware/authMiddleware');
 const { getPost, getPosts, getTimelinePosts, getUserPosts, updatePost, likeAndUnlikePost, addPost, deletePost, addSavedPost, getAllUserPosts, getSavedPost } = require('../controllers/postsController')
 const { addComment, updateComment, deleteComment } = require('../controllers/commentsController');
+const store = require('../middleware/multer');
 
-router.post("/add-post", protect, addPost);
+router.post("/add-post", protect, store.single('file'), addPost);
 router.post("/saved-posts", protect, addSavedPost);
 router.get("/all-posts", getPosts);
 router.get("/timeline/:userId", protect, getTimelinePosts);
