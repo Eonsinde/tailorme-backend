@@ -3,8 +3,9 @@ const { User } = require("../models/User");
 
 // Add a post
 exports.addPost = async(req, res) => {
-    const newPost = new Post(req.body);
-    try {
+  try {
+      const userId = req.user._id;
+      const newPost = new Post({...req.body, userId});
       const savedPost = await newPost.save();
       res.status(200).json(savedPost);
     } catch (err) {
@@ -105,4 +106,22 @@ exports.getPosts = async(req, res) => {
     .catch(err => {
       console.log(err)
   })
+}
+
+// Add saved post
+exports.addSavedPost = async(req, res) => {
+  try {
+    const { postId } = req.body;
+    const userId = req.user._id
+    const post = await Post.findById(postId);
+    if(!post){
+      return res.status(404).json("Post Not found!")
+    }
+    const foundUser = await User.findById(userId);
+    foundUser.savedPosts.push(post._id);
+    foundUser.save();
+    res.status(200).json("Post Saved Succesfully");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
 }

@@ -63,7 +63,13 @@ const userSchema = mongoose.Schema({
     profilePicture: {
         type: String,
         default: "",
-    }
+    },
+    savedPosts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post'
+        }
+    ]
 }, {
     timestamps: true
 })
