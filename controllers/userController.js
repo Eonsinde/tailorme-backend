@@ -127,8 +127,6 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 // @route     GET /api/users/:id
 // @access    Public
 const getUserById = expressAsyncHandler(async (req, res) => {
-    console.log(req.params.id);
-
     const { 
         _id, 
         username, 
@@ -221,6 +219,8 @@ const getUserFriends = async(req, res) => {
 
 // Follow a User
 const followUser = async(req, res) => {
+    console.log("aut user:", req.user._id, ":::", "user to foolwo:", req.params.id);
+
     if (req.user._id !== req.params.id) {
         try {
           const user = await User.findById(req.params.id);
@@ -231,7 +231,7 @@ const followUser = async(req, res) => {
             await currentUser.updateOne({ $push: { followings: req.params.id } });
             res.status(200).json("user has been followed");
           } else {
-            res.status(403).json("you allready follow this user");
+            res.status(403).json("you already follow this user");
           }
         } catch (err) {
           res.status(500).json(err);
