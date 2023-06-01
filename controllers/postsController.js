@@ -1,6 +1,6 @@
 const uploadToCloudinary = require("../middleware/uploadMiddleware");
 const Post = require("../models/Post");
-const { User } = require("../models/User");
+const { User } = require("../models/user");
 
 // Add a post
 exports.addPost = async(req, res) => {
