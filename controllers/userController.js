@@ -102,7 +102,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         address,
         bio,
         favorites,
-        specialties
+        specialties,
+        followers,
     } = await User.findById(req.user.id);
     
     res.status(200).json({ 
@@ -118,6 +119,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         bio: bio || "",
         favorites: favorites || [],
         specialties: specialties || [],
+        followers: followers || [],
     });
 })
 
@@ -125,6 +127,8 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
 // @route     GET /api/users/:id
 // @access    Public
 const getUserById = expressAsyncHandler(async (req, res) => {
+    console.log(req.params.id);
+
     const { 
         _id, 
         username, 
@@ -137,7 +141,8 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         address,
         bio,
         favorites,
-        specialties
+        specialties,
+        followers,
     } = await User.findById(req.params.id);
     
     res.status(200).json({ 
@@ -153,6 +158,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         bio: bio || "",
         favorites: favorites || [],
         specialties: specialties || [],
+        followers: followers || [],
     });
 })
 
@@ -215,12 +221,13 @@ const getUserFriends = async(req, res) => {
 
 // Follow a User
 const followUser = async(req, res) => {
-    if (req.body.userId !== req.params.id) {
+    if (req.user._id !== req.params.id) {
         try {
           const user = await User.findById(req.params.id);
-          const currentUser = await User.findById(req.body.userId);
-          if (!user.followers.includes(req.body.userId)) {
-            await user.updateOne({ $push: { followers: req.body.userId } });
+          const currentUser = await User.findById(req.user._id);
+
+          if (!user.followers.includes(req.user._id)) {
+            await user.updateOne({ $push: { followers: req.user._id } });
             await currentUser.updateOne({ $push: { followings: req.params.id } });
             res.status(200).json("user has been followed");
           } else {
@@ -236,12 +243,13 @@ const followUser = async(req, res) => {
 
 // unfollow a user
 const unFollowUser = async(req, res) => {
-    if (req.body.userId !== req.params.id) {
+    if (req.user._id !== req.params.id) {
         try {
           const user = await User.findById(req.params.id);
-          const currentUser = await User.findById(req.body.userId);
-          if (user.followers.includes(req.body.userId)) {
-            await user.updateOne({ $pull: { followers: req.body.userId } });
+          const currentUser = await User.findById(req.user._id);
+
+          if (user.followers.includes(req.user._id)) {
+            await user.updateOne({ $pull: { followers: req.user._id } });
             await currentUser.updateOne({ $pull: { followings: req.params.id } });
             res.status(200).json("user has been unfollowed");
           } else {
@@ -259,8 +267,6 @@ const unFollowUser = async(req, res) => {
 // @route     PUT /api/users?query=fiyoupe
 // @access    Public
 const searchUsers = expressAsyncHandler(async (req, res) => {
-    console.log("search query:", req.query.query);
-
     const keyword = req.query.query ? {
         $or: [
             {username: { $regex: req.query.query, $options: "i" }},
@@ -270,7 +276,6 @@ const searchUsers = expressAsyncHandler(async (req, res) => {
     } : {};
 
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } })
-    console.log(users);
 
     res.status(200).json(users);
 })
