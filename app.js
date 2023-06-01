@@ -34,7 +34,7 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
-    origin: 'https://tailor-me.netlify.app',
+    origin: `${process.env.NODE_ENV === "development" ? "http://localhost:5173" : 'https://tailor-me.netlify.app'}`,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
