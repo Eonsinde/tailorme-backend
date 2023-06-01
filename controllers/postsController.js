@@ -155,3 +155,15 @@ exports.addSavedPost = async(req, res) => {
     return res.status(500).json(err);
   }
 }
+
+// Get saved post
+exports.getSavedPost = async(req, res) => {
+  try {
+    const userId = req.user._id
+    const foundUser = await User.findById(userId);
+    const savedPosts = foundUser.savedPosts;
+    res.status(200).json(savedPosts);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}

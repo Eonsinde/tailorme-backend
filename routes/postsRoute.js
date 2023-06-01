@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const { protect } = require('../middleware/authMiddleware');
-const { getPost, getPosts, getTimelinePosts, getUserPosts, updatePost, likeAndUnlikePost, addPost, deletePost, addSavedPost, getAllUserPosts } = require('../controllers/postsController')
+const { getPost, getPosts, getTimelinePosts, getUserPosts, updatePost, likeAndUnlikePost, addPost, deletePost, addSavedPost, getAllUserPosts, getSavedPost } = require('../controllers/postsController')
 const { addComment, updateComment, deleteComment } = require('../controllers/commentsController');
 
 router.post("/add-post", protect, addPost);
 router.post("/saved-posts", protect, addSavedPost);
+router.get("/saved-posts", protect, getSavedPost)
 router.get("/all-posts", getPosts);
 router.get("/timeline/:userId", protect, getTimelinePosts);
 router.get("/user/all-posts", protect, getUserPosts);
