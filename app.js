@@ -37,6 +37,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+//image settings
+app.use(express.static(__dirname + '/public'));
+app.use('/uploads', express.static('uploads'));
+
 // root routes 
 app.use("/api/chats", chatsRoutes);
 app.use("/api/posts", postsRoutes);

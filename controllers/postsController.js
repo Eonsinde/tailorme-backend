@@ -1,11 +1,14 @@
-const Post = require("../models/Post");
-const { User } = require("../models/User");
+const uploadToCloudinary = require("../middleware/uploadMiddleware");
+const Post = require("../models/post");
+const { User } = require("../models/user");
 
 // Add a post
 exports.addPost = async(req, res) => {
   try {
     const userId = req.user._id;
-    const newPost = new Post({...req.body, userId});
+    const locaFilePath = req.file.path;
+    const result = await uploadToCloudinary(locaFilePath);
+    const newPost = new Post({...req.body, img: result.url, userId});
     const savedPost = await newPost.save();
     res.status(200).json(savedPost);
   } catch (err) {
