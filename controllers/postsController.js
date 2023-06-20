@@ -144,7 +144,7 @@ exports.getPosts = async(req, res) => {
 exports.addSavedPost = async(req, res) => {
   try {
     const userId = req.user._id
-    const post = await Post.findById(req.params.id).populate('comments');
+    const post = await Post.findById(req.params.postId).populate('comments');
     if(!post){
       return res.status(404).json("Post Not found!")
     }

@@ -6,7 +6,7 @@ const store = require('../middleware/multer');
 
 
 router.post("/add-post", protect, store.single('file'), addPost);
-router.post("/saved-posts", protect, addSavedPost);
+router.post("/saved-posts/:postId", protect, addSavedPost);
 
 router.get("/all-posts", getPosts);
 router.get("/saved-posts", protect, getSavedPost);
