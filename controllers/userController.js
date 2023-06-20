@@ -8,7 +8,7 @@ const { generateToken } = require("../utils.js");
 // @route     POST /api/users/register
 // @access    Public
 const registerUser = expressAsyncHandler(async (req, res) => {
-    const { firstName, lastName, username, email, password, displayName } = req.body;
+    const { firstName, lastName, username, email, password, displayName, userType } = req.body;
 
     if (!email || !username || !password) {
         res.status(400);
@@ -35,6 +35,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
         email,
         displayName: displayName ? displayName : "",
         password,
+        userType,
     })
 
     if (user) {
@@ -46,6 +47,7 @@ const registerUser = expressAsyncHandler(async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profilePicture: "",
+                userType: user.userType,
             },
             token: generateToken(user._id),
         }) ;
@@ -78,6 +80,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profilePicture: user.profilePicture,
+                type: user.userType
             },
             token: generateToken(user._id),
         });
@@ -105,6 +108,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         favorites,
         specialties,
         followers,
+        userType,
     } = await User.findById(req.user.id);
     
     res.status(200).json({ 
@@ -121,6 +125,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         favorites: favorites || [],
         specialties: specialties || [],
         followers: followers || [],
+        type: userType,
     });
 })
 
@@ -142,6 +147,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         favorites,
         specialties,
         followers,
+        userType
     } = await User.findById(req.params.id);
     
     res.status(200).json({ 
@@ -158,6 +164,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         favorites: favorites || [],
         specialties: specialties || [],
         followers: followers || [],
+        type: userType
     });
 })
 

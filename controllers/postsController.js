@@ -92,7 +92,6 @@ exports.getAllUserPosts = async(req, res) => {
 exports.getTimelinePosts = async(req, res) => {
     try {
       const currentUser = await User.findById(req.params.userId);
-      const userPosts = await Post.find({ userId: currentUser._id }).populate('comments');
       const friendPosts = await Promise.all(
         currentUser.followings.map((friendId) => {
           return Post.find({ userId: friendId }).populate([{
@@ -105,7 +104,7 @@ exports.getTimelinePosts = async(req, res) => {
           }])
         })
       );
-      res.status(200).json(userPosts.concat(...friendPosts));
+      res.status(200).json(...friendPosts);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -153,6 +152,17 @@ exports.addSavedPost = async(req, res) => {
     foundUser.savedPosts.push(post._id);
     foundUser.save();
     res.status(200).json("Post Saved Succesfully");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
+//Get saved post
+exports.getSavedPost = async(req, res) => {
+  try {
+    const userId = req.user._id;
+    const foundUser = await User.findById(userId);
+    res.status(200).json(foundUser.savedPosts);
   } catch (err) {
     return res.status(500).json(err);
   }
