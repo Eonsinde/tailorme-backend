@@ -31,8 +31,11 @@ const getUserConversation = expressAsyncHandler(async (req, res) => {
 const getTwoUsersConversation = expressAsyncHandler(async (req, res) => {
   try {
     const conversation = await Conversation.findOne({
-      members: { $all: [req.params.firstUserId, req.params.secondUserId] },
-    });
+      $or: [
+        { members: { $all: [req.params.firstUserId, req.params.secondUserId]} },
+        { members: { $all: [req.params.secondUserId, req.params.firstUserId]} },
+      ]
+    })
     res.status(200).json(conversation)
   } catch (err) {
     res.status(500).json(err);
