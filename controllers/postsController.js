@@ -113,13 +113,13 @@ exports.getTimelinePosts = async(req, res) => {
 
 // Get User's all posts
 exports.getUserPosts = async(req, res) => {
-    try {
-        const user = await User.findOne({ username: req.params.id });
-        const posts = await Post.find({ userId: user._id }).populate('comments');
-        res.status(200).json(posts);
-      } catch (err) {
-        res.status(500).json(err);
-    }
+  try {
+      const user = await User.findOne({ username: req.params.id });
+      const posts = await Post.find({ userId: user._id }).populate('comments');
+      res.status(200).json(posts);
+    } catch (err) {
+      res.status(500).json(err);
+  }
 }
 
 // Get all posts
