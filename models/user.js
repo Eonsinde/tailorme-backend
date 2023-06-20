@@ -69,7 +69,13 @@ const userSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Post'
         }
-    ]
+    ],
+    userType: {
+        type: String,
+        enum: ['customer', 'tailor'],
+        required: true,
+        default: 'customer',
+    }
 }, {
     timestamps: true
 })
