@@ -77,14 +77,15 @@ exports.getAllUserPosts = async(req, res) => {
   try {
     const userId = req.params.userId;
     const user = await User.findById(userId)
+
     if(!user){
       return res.status(404).json("No User Found!")
     }
-      const posts = await Post.find({userId: user._id})  
-      res.status(200).json(posts);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json(err);
+    const posts = await Post.find({ userId: user._id })  
+    res.status(200).json(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
   }
 }
 
@@ -141,7 +142,7 @@ exports.getPosts = async(req, res) => {
 }
 
 // Add saved post
-exports.addSavedPost = async(req, res) => {
+exports.savePost = async(req, res) => {
   try {
     const userId = req.user._id
     const post = await Post.findById(req.params.postId).populate('comments');
@@ -158,7 +159,7 @@ exports.addSavedPost = async(req, res) => {
 }
 
 //Get saved post
-exports.getSavedPost = async(req, res) => {
+exports.getSavedPosts = async(req, res) => {
   try {
     const userId = req.user._id;
     const foundUser = await User.findById(userId);
