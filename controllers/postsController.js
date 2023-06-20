@@ -125,20 +125,24 @@ exports.getUserPosts = async(req, res) => {
 
 // Get all posts
 exports.getPosts = async(req, res) => {
-  Post.find({}).populate([{
-    path: "comments",
-    model: "Comment"
-  }, {
-    path: "userId",
-    model: "User",
-    select: {"username": 1, "displayName": 1, "profilePicture": 1, "_id": 1}
-  }])
-    .then(posts => {
-      res.status(200).json({ posts })
-    })
-    .catch(err => {
-      console.log(err)
-  })
+  try {
+      const userId = req.user._id;
+      const foundUser = await User.findById(userId);
+    const allPosts = await Post.find({}).populate([{
+      path: "comments",
+      model: "Comment"
+    }, {
+      path: "userId",
+      model: "User",
+      select: {"username": 1, "displayName": 1, "profilePicture": 1, "_id": 1}
+    }]);
+    const filteredPost = allPosts.filter(post => post.userId._id !== foundUser._id)
+    res.status(200).json(filteredPost);
+    } catch (error) {
+    console.log(err)
+    return res.status(500).json(err);
+    
+  }
 }
 
 // Add saved post
@@ -162,7 +166,13 @@ exports.savePost = async(req, res) => {
 exports.getSavedPosts = async(req, res) => {
   try {
     const userId = req.user._id;
-    const foundUser = await User.findById(userId).populate('savedPosts');
+    const foundUser = await User.findById(userId).populate({
+      path: 'savedPosts',
+      select: {
+        likes: 0,
+        comments: 0
+      }
+    });
     res.status(200).json(foundUser.savedPosts);
   } catch (err) {
     return res.status(500).json(err);

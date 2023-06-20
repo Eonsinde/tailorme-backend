@@ -9,7 +9,7 @@ router.post("/add-post", protect, store.single('file'), addPost);
 router.get("/saved-posts", protect, getSavedPosts);
 router.post("/saved-posts/:postId", protect, savePost);
 
-router.get("/all-posts", getPosts);
+router.get("/all-posts", protect, getPosts);
 router.get("/timeline/:userId", protect, getTimelinePosts);
 router.get("/user/:userId/all-posts", getAllUserPosts);
 router.post("/comment", protect, addComment);
