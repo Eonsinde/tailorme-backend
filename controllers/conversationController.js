@@ -1,9 +1,7 @@
 const expressAsyncHandler = require("express-async-handler");
-const router = require("express").Router();
 const Conversation = require("../models/Conversation");
 
 //new conv
-
 const addConversation = expressAsyncHandler(async (req, res) => {
   const newConversation = new Conversation({
     members: [req.body.senderId, req.body.receiverId],

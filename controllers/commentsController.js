@@ -23,8 +23,8 @@ exports.addComment = async(req, res) => {
 // Update a comment
 exports.updateComment = async(req, res) => {
     try {
-        const { commentId, text } = req.body
-        const comment = await Comment.findByIdAndUpdate(commentId, text, {new: true});
+        const { userId, text } = req.body
+        const comment = await Comment.findByIdAndUpdate({ userId }, text, {new: true});
         if(!comment){
             return res.status(404).json("you can update only your comment");
         }
@@ -37,8 +37,8 @@ exports.updateComment = async(req, res) => {
 // Delete a comment
 exports.deleteComment = async(req, res) => {
     try {
-        const { commentId } = req.body;
-        const comment = await Comment.findById(commentId);
+        const { userId } = req.body;
+        const comment = await Comment.findById({ userId });
         if(!comment){
             return res.status(403).json("you can delete only your comment");
         }
