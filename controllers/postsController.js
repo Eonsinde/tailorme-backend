@@ -92,7 +92,7 @@ exports.getAllUserPosts = async(req, res) => {
 // Get timeline posts
 exports.getTimelinePosts = async(req, res) => {
     try {
-      const currentUser = await User.findById(req.params.userId);
+      const currentUser = await User.findById(req.params.userId).populate('followings');
       const friendPosts = await Promise.all(
         currentUser.followings.map((friendId) => {
           return Post.find({ userId: friendId }).populate([{
@@ -105,7 +105,15 @@ exports.getTimelinePosts = async(req, res) => {
           }])
         })
       );
-      res.status(200).json(...friendPosts);
+      const newArr = friendPosts.map((post) => {
+        let fetchedPost;
+        post.map(singlePost => {
+          fetchedPost = singlePost;
+        });
+        return fetchedPost;
+      });
+      console.log(newArr);
+      res.status(200).json(newArr);
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
