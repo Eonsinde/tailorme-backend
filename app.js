@@ -34,7 +34,7 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({
-    origin: `${process.env.NODE_ENV === "development" ? "http://localhost:5173" : ['https://oko-gho.netlify.app', 'https://oko-gho.render.com']}`,
+    origin: `${process.env.NODE_ENV === "development" ? "http://localhost:5173" : 'https://oko-gho.netlify.app'}`,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
