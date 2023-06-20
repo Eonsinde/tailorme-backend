@@ -162,7 +162,7 @@ exports.savePost = async(req, res) => {
 exports.getSavedPosts = async(req, res) => {
   try {
     const userId = req.user._id;
-    const foundUser = await User.findById(userId);
+    const foundUser = await User.findById(userId).populate('savedPosts');
     res.status(200).json(foundUser.savedPosts);
   } catch (err) {
     return res.status(500).json(err);
