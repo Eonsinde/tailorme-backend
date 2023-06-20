@@ -3,13 +3,24 @@ const Conversation = require("../models/Conversation");
 
 //new conv
 const addConversation = expressAsyncHandler(async (req, res) => {
-  const newConversation = new Conversation({
-    members: [req.body.senderId, req.body.receiverId],
-  });
-
   try {
+    const conversation = await Conversation.findOne({
+      $or: [
+        { members: { $all: [req.params.firstUserId, req.params.secondUserId]} },
+        { members: { $all: [req.params.secondUserId, req.params.firstUserId]} },
+      ]
+    })
+
+    if (conversation) {
+      res.status(200).json("Conversion already exists");
+    }
+
+    const newConversation = new Conversation({
+      members: [req.body.senderId, req.body.receiverId],
+    });
+
     const savedConversation = await newConversation.save();
-    res.status(200).json(savedConversation);
+    res.status(201).json(savedConversation);
   } catch (err) {
     res.status(500).json(err);
   }
