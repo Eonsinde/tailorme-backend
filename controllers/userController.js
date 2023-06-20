@@ -80,6 +80,7 @@ const loginUser = expressAsyncHandler(async (req, res) => {
                 username: user.username,
                 email: user.email,
                 profilePicture: user.profilePicture,
+                type: user.userType
             },
             token: generateToken(user._id),
         });
@@ -107,6 +108,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         favorites,
         specialties,
         followers,
+        userType,
     } = await User.findById(req.user.id);
     
     res.status(200).json({ 
@@ -123,6 +125,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
         favorites: favorites || [],
         specialties: specialties || [],
         followers: followers || [],
+        type: userType,
     });
 })
 
@@ -144,6 +147,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         favorites,
         specialties,
         followers,
+        userType
     } = await User.findById(req.params.id);
     
     res.status(200).json({ 
@@ -160,6 +164,7 @@ const getUserById = expressAsyncHandler(async (req, res) => {
         favorites: favorites || [],
         specialties: specialties || [],
         followers: followers || [],
+        type: userType
     });
 })
 
