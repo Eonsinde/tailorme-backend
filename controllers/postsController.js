@@ -112,17 +112,6 @@ exports.getTimelinePosts = async(req, res) => {
     }
 }
 
-// Get User's all posts
-exports.getUserPosts = async(req, res) => {
-    try {
-        const user = await User.findOne({ username: req.params.id });
-        const posts = await Post.find({ userId: user._id }).populate('comments');
-        res.status(200).json(posts);
-      } catch (err) {
-        res.status(500).json(err);
-    }
-}
-
 // Get all posts
 exports.getPosts = async(req, res) => {
   Post.find({}).populate([{
@@ -142,17 +131,33 @@ exports.getPosts = async(req, res) => {
 }
 
 // Add saved post
-exports.addSavedPost = async(req, res) => {
+exports.savePost = async(req, res) => {
   try {
     const userId = req.user._id
     const post = await Post.findById(req.params.id).populate('comments');
-    if(!post){
-      return res.status(404).json("Post Not found!")
+    if(post){
+      return res.status(200).json("Post already exists!")
     }
     const foundUser = await User.findById(userId);
     foundUser.savedPosts.push(post._id);
     foundUser.save();
     res.status(200).json("Post Saved Succesfully");
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+}
+
+exports.getSavedPosts = async(req, res) => {
+  try {
+    const userId = req.user._id
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(200).json("user not found!")
+    }
+    res.status(200).json({
+      posts: user.savedPosts
+    });
   } catch (err) {
     return res.status(500).json(err);
   }

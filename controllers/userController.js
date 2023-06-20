@@ -165,14 +165,26 @@ const updateUserAvatar = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
+        // console.log(user, "fiel patg\n\n", req.file)
         const localFilePath = req.file?.path || "";
-        const result = await uploadToCloudinary(localFilePath);
-        user.username = req.body.username || result.url;
-        
-        const updatedUser = await user.save();
-        res.status(200).json({
-            profilePicture: updatedUser.profilePicture,
-        });
+
+        try {
+            const result = await uploadToCloudinary(localFilePath);
+            user.profilePicture = result.url;
+            console.log(result.url);
+
+            if (result.url) {
+                const updatedUser = await user.save();
+                res.status(200).json({
+                    profilePicture: updatedUser.profilePicture,
+                });
+            } else {
+                res.status(404);
+                throw new Error("Failed to upload display photo");
+            }
+        } catch (err) {
+            console.log(err);
+        }   
     } else {
         res.status(404);
         throw new Error("User not found");
@@ -186,7 +198,7 @@ const updateUser = expressAsyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if (user) {
-        console.log(req.body);
+        // console.log(req.body);
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
         user.firstName = req.body.firstName || user.firstName;
